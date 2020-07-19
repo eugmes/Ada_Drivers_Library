@@ -3,6 +3,7 @@
 
 def list_of_boards():
     return ["Custom_Board",
+            'STM32L0538_Discovery',
             'STM32F407_Discovery',
             'STM32F429_Discovery',
             'STM32F469_Discovery',
@@ -24,9 +25,23 @@ def load_board_config(config):
     board = config.get_config("Board")
     origin = 'board definition'
 
+    if board == "STM32L0538_Discovery":
+        config.pre_define('Architecture', 'ARM', origin)
+        config.pre_define('Vendor', 'STMicro', origin)
+        config.pre_define('Device_Family', 'STM32L0', origin)
+        config.pre_define('Device_Name', 'STM32L053x8x', origin)
+        config.pre_define('Has_ZFP_Runtime', 'False', origin)
+        config.pre_define('Has_Ravenscar_SFP_Runtime', 'True', origin)
+        config.pre_define('Has_Ravenscar_Full_Runtime', 'True', origin)
+        config.pre_define('Runtime_Name_Suffix', 'stm32l0538disco', origin)
+
+        config.add_source_dir('boards/stm32_common/stm32l0538disco/',
+                              origin)
+        config.add_source_dir('boards/stm32_common/common/', origin)
+
     # The NUCLEO-F446ZE has an STM32F446ZE microcontroller. However the
     # 446 is not supported yet, so we use the 407 that is very similar.
-    if board == "STM32F407_Discovery" or board == "NUCLEO_F446ZE":
+    elif board == "STM32F407_Discovery" or board == "NUCLEO_F446ZE":
         config.pre_define('Architecture', 'ARM', origin)
         config.pre_define('Vendor', 'STMicro', origin)
         config.pre_define('Device_Family', 'STM32F4', origin)

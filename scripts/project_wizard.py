@@ -42,7 +42,9 @@ def mcu_config(config, source_dir):
 
         device = config.get_config("Device_Name")
 
-        if device.startswith("STM32F4"):
+        if device.startswith("STM32L0"):
+            core = "ARM Cortex-M0"
+        elif device.startswith("STM32F4"):
             core = "ARM Cortex-M4F"
         elif device.startswith("STM32F7"):
             core = "ARM Cortex-M7F"
@@ -59,7 +61,7 @@ def mcu_config(config, source_dir):
 
         family = config.get_config("Device_Family")
 
-        if family.startswith("STM32"):
+        if family.startswith("STM32F"):
             config.query_integer_key("High_Speed_External_Clock",
                                      1000000, 32000000)
         elif family.startswith("FE310"):

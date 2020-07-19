@@ -22,7 +22,9 @@ class U540(SOC):
 
 def list_of_devices(config):
     family = config.get_config("Device_Family")
-    if family == "STM32F4":
+    if family == "STM32L0":
+        return ["STM32L053x8x"]
+    elif family == "STM32F4":
         return ['STM32F407VGTx',
                 'STM32F405RGTx',
                 'STM32F427VGTx',
@@ -60,7 +62,7 @@ def list_of_vendors(config):
 def list_of_families(config):
     vendor = config.get_config("Vendor")
     if vendor == "STMicro":
-        return ["STM32F4", "STM32F7"]
+        return ["STM32L0", "STM32F4", "STM32F7"]
     elif vendor == "Nordic":
         return ["nRF51", "nRF52"]
     elif vendor == "SiFive":
@@ -76,7 +78,11 @@ def load_device_config(config, source_dir):
     dev = None
     src = []
 
-    if mcu == 'STM32F407VGTx' or mcu == 'STM32F405RGTx':
+    if mcu == 'STM32L053x8x':
+        src += ['arch/ARM/STM32/svd/stm32l0x3',
+                'arch/ARM/STM32/drivers_stm32l0/']
+
+    elif mcu == 'STM32F407VGTx' or mcu == 'STM32F405RGTx':
         src += ['arch/ARM/STM32/devices/stm32f40x/',
                 'arch/ARM/STM32/svd/stm32f40x',
                 'arch/ARM/STM32/drivers/',
